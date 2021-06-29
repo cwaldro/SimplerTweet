@@ -57,6 +57,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfileImage;
         TextView tvBody;
         TextView tvScreenName;
+        TextView tvTimestamp;
 
         //constructing viewholder with initialization of member vars
         public ViewHolder(@NonNull View itemView) {
@@ -64,11 +65,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById((R.id.tvScreenName));
+            tvTimestamp = itemView.findViewById((R.id.tvTimestamp));
         }
 
         //helper function to fill in views on screen using tweet at position OnBindVH takes in
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
+            tvTimestamp.setText(tweet.timestamp);
             tvScreenName.setText(tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
         }
