@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -49,9 +52,30 @@ public class TimelineActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         populateHomeTimeline();
     }
-    //sets timeline using API call
+    @Override
+    //override function for new menu
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //sets timeline using API call
+        //inflate menu with menu passed in; inflates items to action bar
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //must return true for menu to be displayed
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.compose) {
+            //Compose Item was selected
+          Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
+          //return true navigates to compose activity
+          return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+
     private void populateHomeTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+    client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "onSuccess" + json.toString());
