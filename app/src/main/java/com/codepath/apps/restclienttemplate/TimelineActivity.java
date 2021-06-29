@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.models.ComposeActivity;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -67,7 +68,9 @@ public class TimelineActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.compose) {
             //Compose Item was selected
           Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
-          //return true navigates to compose activity
+          //return true navigates to compose activity with intent
+            Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
+            startActivity(intent);
           return true;
         }
         return super.onOptionsItemSelected(item);
