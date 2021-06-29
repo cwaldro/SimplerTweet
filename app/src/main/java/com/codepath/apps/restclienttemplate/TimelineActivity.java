@@ -65,9 +65,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.compose) {
-            //Compose Item was selected
-          Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
+        if(item.getItemId() == R.id.compose) { //if Compose Item was selected
           //return true navigates to compose activity with intent
             Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
             startActivity(intent);
