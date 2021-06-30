@@ -26,6 +26,7 @@ public class Tweet {
     public String createdAt;
     public User user;
     public String timestamp;
+    public String embedUrl;
 
     //empty constructor for parceler
     public Tweet(){}
@@ -38,8 +39,19 @@ public class Tweet {
         //need User constructor to create user object from JSONobject (implemented in User.java)
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.timestamp = getRelativeTimeAgo(jsonObject.getString("created_at"));
+        tweet.embedUrl = getMediaFromJson(jsonObject.getJSONObject("entities"));
         return tweet;
     }
+    //extracts media url from extended entities array
+    private static String getMediaFromJson(JSONObject jsonObject) throws JSONException {
+        if(jsonObject.has("media")) {
+            JSONObject media = jsonObject.getJSONArray("media").getJSONObject(0);
+            Log.i("Tweet", media.getString("media_url_https"));
+            return media.getString("media_url_https");
+        }
+        else return "";
+    }
+
     //create and return list of tweet objects from whole jsonArray
     public static List<Tweet> fromJSONArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();

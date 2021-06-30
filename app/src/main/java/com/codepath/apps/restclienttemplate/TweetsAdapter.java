@@ -70,6 +70,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         TextView tvTimestamp;
+        ImageView ivUrl;
 
         //constructing viewholder with initialization of member vars
         public ViewHolder(@NonNull View itemView) {
@@ -78,6 +79,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById((R.id.tvScreenName));
             tvTimestamp = itemView.findViewById((R.id.tvTimestamp));
+            ivUrl = itemView.findViewById(R.id.ivUrl);
         }
 
         //helper function to fill in views on screen using tweet at position OnBindVH takes in
@@ -86,6 +88,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvTimestamp.setText(tweet.timestamp);
             tvScreenName.setText(tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+            if(!tweet.embedUrl.equals("")) {
+                Glide.with(context).load(tweet.embedUrl).into(ivUrl);
+                ivUrl.setVisibility(View.VISIBLE);
+            }
+            else {
+                ivUrl.setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvScreenName"
         android:layout_marginStart="5dp"
@@ -46,4 +46,15 @@
         app:layout_constraintStart_toEndOf="@+id/tvScreenName"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2m" />
+
+    <ImageView
+        android:id="@+id/ivUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvBody"
+        android:layout_alignLeft="@id/tvBody"
+        android:layout_alignRight="@id/tvBody"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>
