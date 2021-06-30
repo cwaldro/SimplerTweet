@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ public class TimelineActivity extends AppCompatActivity {
     //create tag for logging success vs failure
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
+    //swipe refresh member var
+    private SwipeRefreshLayout swipeContainer;
 
     TwitterClient client;
     RecyclerView rvTweets;
@@ -47,6 +50,50 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient(this);
         //find RV
         rvTweets = findViewById(R.id.rvTweets);
+        //swipe refresh instantiation
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        btnLogout = findViewById(R.id.btnLogout);
+        populateHomeTimeline();
+
+        //set up refresh listener to trigger new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchTimelineAsync(0);
+            }
+
+            public void fetchTimelineAsync(int page) {
+                client.getHomeTimeline(new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Headers headers, JSON json) {
+                        //clear old tweets before appending
+                        adapter.clear();
+                        tweets.clear();
+                        populateHomeTimeline();
+                        adapter.addAll(tweets);
+                        //add retrieved tweets to adapter
+//                        JSONArray jsonArray = json.jsonArray;
+//                        try {
+//                            adapter.addAll(Tweet.fromJSONArray(jsonArray));
+//                        } catch (JSONException e) {
+//                            Log.e(TAG, "json refresh exception");
+//                        }
+                        //signal refresh has finished
+                        swipeContainer.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Headers headers, String response, Throwable e) {
+                        Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+                    }
+                });
+            }
+        });
+        //set refresh colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         //initialize list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
@@ -54,9 +101,9 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
         //add logout button to timeline activity
-        btnLogout = findViewById(R.id.btnLogout);
-        populateHomeTimeline();
     }
+
+
     @Override
     //override function for new menu
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,6 +136,7 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.add(0, tweet);
             //update adapter
             adapter.notifyItemInserted(0);
+            //view at top of timeline
             rvTweets.smoothScrollToPosition(0);
             
 
@@ -111,12 +159,12 @@ public class TimelineActivity extends AppCompatActivity {
                     Log.e(TAG, "Json exception");
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e(TAG, "onFailure" + response, throwable);
             }
         });
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
