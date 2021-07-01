@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.ComposeActivity;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -45,14 +46,17 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        //implementing view binding library
+        ActivityTimelineBinding binding = ActivityTimelineBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         client = TwitterApp.getRestClient(this);
         //find RV
-        rvTweets = findViewById(R.id.rvTweets);
+        rvTweets = binding.rvTweets;
         //swipe refresh instantiation
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        btnLogout = findViewById(R.id.btnLogout);
+        swipeContainer = (SwipeRefreshLayout) binding.swipeContainer;
+        btnLogout = binding.btnLogout;
         populateHomeTimeline();
 
         //set up refresh listener to trigger new data loading
@@ -70,14 +74,7 @@ public class TimelineActivity extends AppCompatActivity {
                         adapter.clear();
                         tweets.clear();
                         populateHomeTimeline();
-                        adapter.addAll(tweets);
-                        //add retrieved tweets to adapter
-//                        JSONArray jsonArray = json.jsonArray;
-//                        try {
-//                            adapter.addAll(Tweet.fromJSONArray(jsonArray));
-//                        } catch (JSONException e) {
-//                            Log.e(TAG, "json refresh exception");
-//                        }
+                        adapter.addAll(tweets); //adds and notifies adapter
                         //signal refresh has finished
                         swipeContainer.setRefreshing(false);
                     }
