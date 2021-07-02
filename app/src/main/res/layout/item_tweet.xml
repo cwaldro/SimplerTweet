@@ -21,8 +21,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        android:layout_toEndOf="@+id/tvFullname"
+        app:layout_constraintStart_toEndOf="@+id/tvFullname"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="clairewaldron23" />
 
@@ -30,7 +30,7 @@
         android:id="@+id/tvBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvScreenName"
+        android:layout_below="@+id/ivProfileImage"
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
@@ -57,4 +57,58 @@
         android:layout_marginTop="8dp"
         android:scaleType="fitCenter"
         tools:srcCompat="@tools:sample/avatars" />
+
+    android:srcCompat="@drawable/ic_vector_heart_stroke"
+
+    <ImageButton
+        android:id="@+id/ibComment"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/ivUrl"
+        android:layout_alignLeft="@id/ivUrl"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/vector_compose_dm_fab"
+        android:tint="@color/twitter_blue" />
+
+    <ImageButton
+        android:id="@+id/ibRetweet"
+        android:layout_width="70dp"
+        android:layout_height="43dp"
+        android:layout_below="@id/ivUrl"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="70dp"
+        android:layout_toStartOf="@+id/ibLike"
+        android:layout_toEndOf="@+id/ibComment"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_vector_retweet_stroke"
+        android:tint="@color/twitter_blue" />
+
+    <ImageButton
+        android:id="@+id/ibLike"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/ivUrl"
+        android:layout_alignRight="@id/ivUrl"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_vector_heart_stroke"
+        android:tint="@color/twitter_blue" />
+
+    <TextView
+        android:id="@+id/tvFullname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Claire Waldron" />
 </RelativeLayout>

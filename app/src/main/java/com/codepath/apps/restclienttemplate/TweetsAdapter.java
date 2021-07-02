@@ -17,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 //parameterize class with viewholder AFTER defining vh
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
     //member vars to pass in context and list of tweets into
@@ -71,6 +73,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView tvTimestamp;
         ImageView ivUrl;
+        TextView tvFullname;
 
         //constructing viewholder with initialization of member vars
         public ViewHolder(@NonNull View itemView) {
@@ -80,16 +83,25 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById((R.id.tvScreenName));
             tvTimestamp = itemView.findViewById((R.id.tvTimestamp));
             ivUrl = itemView.findViewById(R.id.ivUrl);
+            tvFullname = itemView.findViewById((R.id.tvFullname));
         }
 
         //helper function to fill in views on screen using tweet at position OnBindVH takes in
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             tvTimestamp.setText(tweet.timestamp);
-            tvScreenName.setText(tweet.user.screenName);
-            Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+            tvScreenName.setText("@" + tweet.user.screenName);
+            tvFullname.setText(tweet.user.name);
+            int radius = 70; // corner radius, higher value = more rounded
+            int margin = 10;
+            Glide.with(context)
+                    .load(tweet.user.profileImageUrl)
+                    .transform(new RoundedCornersTransformation(radius, margin))
+                    .into(ivProfileImage);
             if(!tweet.embedUrl.equals("")) {
-                Glide.with(context).load(tweet.embedUrl).into(ivUrl);
+                Glide.with(context)
+                        .load(tweet.embedUrl)
+                        .into(ivUrl);
                 ivUrl.setVisibility(View.VISIBLE);
             }
             else {
